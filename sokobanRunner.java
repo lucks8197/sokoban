@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.RenderingHints;
 import javax.swing.*;
 
-public class sokobanRunner {
+public class SokobanRunner {
    public static void main(String args[]) {
       JFrame f = new JFrame("Base");
       ImageIcon img = new ImageIcon("C:\\Users\\lucas\\OneDrive\\Desktop\\mp4\\vsauce.jpg");

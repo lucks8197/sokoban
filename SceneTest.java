@@ -5,7 +5,7 @@ import java.io.*;
 
 
 public class SceneTest extends Scene {
-   public static void main(String[] args) {sokobanRunner.main(new String[0]);}
+   public static void main(String[] args) {SokobanRunner.main(new String[0]);}
    
    ArrayList<Grid> gs;
    double cx   = 0;
@@ -40,16 +40,21 @@ public class SceneTest extends Scene {
       }
    }
    public void sizeCamera() {
-      double w = getGSw()+1;
-      double h = getGSh()+1;
+      int off = 2;
+      double w = getGSw()+1+off;
+      double h = getGSh()+1+off;
       if (w >= h*screenRatio) {
          zoom = 100*screenRatio/w;
-         cy = (100-cy(1)*h)/-2;
+         cy = (100-cy(1)*(h-off))/-2;
+         cx = -cx(1);
       }
       else {
          zoom = 100/h;
-         cx = (100*screenRatio-cx(1)*w)/-2;
+         cx = (100*screenRatio-cx(1)*(w-off))/-2;
+         cy = cy(1);
       }
+
+      
    }
    
    public int getGSw() {
