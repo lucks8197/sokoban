@@ -87,21 +87,29 @@ public class SokoScene extends Scene {
    }
    
    public void sizeCamera() {
-      int off = 2;
-      double w = getGSw()+1+off;
-      double h = getGSh()+1+off;
-      if (w >= h*screenRatio) {
-         zoom = 100*screenRatio/w;
-         cy = (100-cy(1)*(h-off))/-2;
-         cx = -cx(1);
+      double h = getGSh();
+      double w = getGSw();
+      double size = 10+(double)Math.max(w,h)/50;
+      if (100/(h+size) > 100*screenRatio/(w+size)) {
+         zoom = 100*screenRatio/(w+size);
+         cx = -(size-1)/2;
+         // how many tiles can fit vertically? 100/zoom
+         // how many tiles are there vertically? height
+         // how much unused space is there? 100/zoom - height
+         // how much should we tack on to the bottom? (100/zoom - height) / 2
+         cy = -(100/zoom-h)/2;
       }
       else {
-         zoom = 100/h;
-         cx = (100*screenRatio-cx(1)*(w-off))/-2;
-         cy = cy(1);
+         zoom = 100/(h+size);
+         cy = -(size-1)/2;
+         // how many tiles can fit horizontally? 100*screenRatio/zoom
+         // how many tiles are there horizontally? width
+         // how much unused space is there? 100*screenRatio/zoom - width
+         // how much should we tack on to the left? (100*screenRatio/zoom - width) / 2
+         cx = -(100*screenRatio/zoom-w)/2;
       }
-      
    }
+
    
    public int getGSw() {
       int hx = Integer.MIN_VALUE;
@@ -134,8 +142,8 @@ public class SokoScene extends Scene {
       super.makeLetterbox(g2d);
    }
    
-   public double cx(double x) {return (double)x*zoom-cx-startCOffset;}
-   public double cy(double y) {return (double)y*zoom-cy;}
+   public double cx(double x) {return (double)x*zoom-(cx-startCOffset)*zoom;}
+   public double cy(double y) {return (double)y*zoom-(cy)*zoom;}
    
 }
 
