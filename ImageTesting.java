@@ -30,6 +30,8 @@ public class ImageTesting extends Scene {
       
       try {picture=ImageIO.read(new File("square.png"));} catch (Exception FileNotFoundException) {System.out.println("PP");}
       
+      f.setDefaultCloseOperation(3);
+      
       while (true) {
          sc.getScreenResizeInfo(f);
          f.repaint();  
@@ -41,34 +43,31 @@ public class ImageTesting extends Scene {
       if (ww>wh && wh*screenRatio <= ww) imageSuffer(g2d, img,
             ((x/(100*screenRatio))*w)+lw, ((y/100)*h)+lh, (xs/100)*(w/screenRatio), (ys/100)*(h)
             );
-      else g2d.fill(new Rectangle2D.Double(
+      else imageSuffer(g2d,img,
             ((x/(100*screenRatio))*w)+lw, ((y/100)*h)+lh, (xs/100)*(w/screenRatio), (ys/100)*(h)
-            ));
+            );
    }
    
-   public void img2(Graphics2D g2d, double x1, double y1, double x2, double y2) {
-      srect(g2d, x1, y1, x2-x1, y2-y1);
+   public void img2(Graphics2D g2d, BufferedImage img, double x1, double y1, double x2, double y2) {
+      simg(g2d, img, x1, y1, x2-x1, y2-y1);
    }
    
-   public void cimg(Graphics2D g2d, double x, double y, double xs, double ys) {
+   public void cimg(Graphics2D g2d, BufferedImage img, double x, double y, double xs, double ys) {
       xs /= 2;
       ys /= 2;
-      rect2(g2d, x-xs, y-ys, x+xs, y+ys); 
+      img2(g2d, img, x-xs, y-ys, x+xs, y+ys); 
    }
    
-   static double xs = 100;
+   static double xs = 0;
    @Override
    protected void paintComponent(Graphics g) {
       Graphics2D g2d = (Graphics2D)g;
-      g2d.setColor(new Color(255,255,0));
-      
-      srect(g2d,0,0,50,50);simg(g2d,picture,0,0,50,50);
    }   
    
    public void imageSuffer(Graphics2D g2d, BufferedImage img, double x, double y, double xsize, double ysize) {
       AffineTransform at = new AffineTransform();
-      at.scale((double)xsize/(img.getWidth()),(double)ysize/(img.getHeight()));
       at.translate(x,y);
+      at.scale((double)xsize/(img.getWidth()),(double)ysize/(img.getHeight()));
       BufferedImageOp bio = (BufferedImageOp)new AffineTransformOp(at, g2d.getRenderingHints());
       g2d.drawImage(img,bio,0,0);      
    }   
