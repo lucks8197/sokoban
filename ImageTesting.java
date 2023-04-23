@@ -40,10 +40,10 @@ public class ImageTesting extends Scene {
    
    public void simg(Graphics2D g2d, BufferedImage img, double x, double y, double xs, double ys) {
       // kind of like a lerp
-      if (ww>wh && wh*screenRatio <= ww) imageSuffer(g2d, img,
+      if (ww>wh && wh*screenRatio <= ww) simpleImage(g2d, img,
             ((x/(100*screenRatio))*w)+lw, ((y/100)*h)+lh, (xs/100)*(w/screenRatio), (ys/100)*(h)
             );
-      else imageSuffer(g2d,img,
+      else simpleImage(g2d,img,
             ((x/(100*screenRatio))*w)+lw, ((y/100)*h)+lh, (xs/100)*(w/screenRatio), (ys/100)*(h)
             );
    }
@@ -58,17 +58,17 @@ public class ImageTesting extends Scene {
       img2(g2d, img, x-xs, y-ys, x+xs, y+ys); 
    }
    
-   static double xs = 0;
-   @Override
-   protected void paintComponent(Graphics g) {
-      Graphics2D g2d = (Graphics2D)g;
-   }   
-   
-   public void imageSuffer(Graphics2D g2d, BufferedImage img, double x, double y, double xsize, double ysize) {
+   public void simpleImage(Graphics2D g2d, BufferedImage img, double x, double y, double xsize, double ysize) {
       AffineTransform at = new AffineTransform();
       at.translate(x,y);
       at.scale((double)xsize/(img.getWidth()),(double)ysize/(img.getHeight()));
       BufferedImageOp bio = (BufferedImageOp)new AffineTransformOp(at, g2d.getRenderingHints());
       g2d.drawImage(img,bio,0,0);      
+   }   
+   
+   static double xs = 0;
+   @Override
+   protected void paintComponent(Graphics g) {
+      Graphics2D g2d = (Graphics2D)g;
    }   
 }

@@ -5,6 +5,13 @@ import java.awt.geom.*;
 import java.awt.Color;
 import java.awt.RenderingHints;
 import javax.swing.*;
+import javax.swing.JFrame;
+import java.awt.image.*;
+import javax.imageio.*;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 
 public class SokobanRunner {
    public static void main(String args[]) {
@@ -14,7 +21,7 @@ public class SokobanRunner {
       f.setSize(500,500);
       f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       
-      Scene sc = new SceneTest();
+      Scene sc = new SokoScene();
       // f.addMouseListener((MouseListener) sc);
       f.add(sc);
       if (true) {
@@ -70,6 +77,26 @@ class Scene extends JComponent implements MouseListener {
       ys /= 2;
       rect2(g2d, x-xs, y-ys, x+xs, y+ys); 
    }
+   public void simg(Graphics2D g2d, BufferedImage img, double x, double y, double xs, double ys) {
+      // kind of like a lerp
+      if (ww>wh && wh*screenRatio <= ww) Static.simpleImage(g2d, img,
+            ((x/(100*screenRatio))*w)+lw, ((y/100)*h)+lh, (xs/100)*(w/screenRatio), (ys/100)*(h)
+            );
+      else Static.simpleImage(g2d,img,
+            ((x/(100*screenRatio))*w)+lw, ((y/100)*h)+lh, (xs/100)*(w/screenRatio), (ys/100)*(h)
+            );
+   }
+   
+   public void img2(Graphics2D g2d, BufferedImage img, double x1, double y1, double x2, double y2) {
+      simg(g2d, img, x1, y1, x2-x1, y2-y1);
+   }
+   
+   public void cimg(Graphics2D g2d, BufferedImage img, double x, double y, double xs, double ys) {
+      xs /= 2;
+      ys /= 2;
+      img2(g2d, img, x-xs, y-ys, x+xs, y+ys); 
+   }
+
    
    private void makeBackground(Graphics2D g2d) {
       g2d.fill(new Rectangle2D.Double(0,0,ww, wh));

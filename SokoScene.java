@@ -1,23 +1,32 @@
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.geom.*;
+import java.awt.Color;
+import java.awt.RenderingHints;
+import javax.swing.*;
+import javax.swing.JFrame;
+import java.awt.image.*;
+import javax.imageio.*;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.io.*;
 
-
-public class SceneTest extends Scene {
+public class SokoScene extends Scene {
    public static void main(String[] args) {SokobanRunner.main(new String[0]);}
    
    ArrayList<Grid> gs;
+   ArrayList<BufferedImage> bs;
    double cx   = 0;
    double cy   = 0;
    double zoom = 1;
    
-   public SceneTest() {
+   public SokoScene() {
       gs = new ArrayList<Grid>();
+      bs = new ArrayList<BufferedImage>();
+      bs.add(Static.bfile("square.png"));
       initializeGS();
       sizeCamera();
-      
-      
       
    }
    
@@ -32,7 +41,7 @@ public class SceneTest extends Scene {
       while (s.hasNextLine()) {
          st = s.nextLine();
          for (char c: st.toCharArray()) {
-            if (c=='.') gs.add(new Wall(x,y));
+            if (c=='.') gs.add(new Wall(x,y,bs.get(0)));
             x++;
          }
          x=0;
@@ -104,7 +113,7 @@ class Grid {
    public Grid(int x, int y) {
       this.x=x; this.y=y;
    }
-   public void draw(Graphics2D g2d, SceneTest s) {}
+   public void draw(Graphics2D g2d, SokoScene s) {}
    
 }
 
@@ -112,17 +121,19 @@ class Grid {
 
 class Wall extends Grid {
    double size = 1;
+   BufferedImage ref;
    
    public Wall() {
       super();
    }  
-   public Wall(int x, int y) {
+   public Wall(int x, int y, BufferedImage ref) {
       super(x,y);
+      this.ref = ref;
    }
    
    @Override
-   public void draw(Graphics2D g2d, SceneTest s) {
-      s.srect(g2d, s.cx(x), s.cy(y), s.zoom*size, s.zoom*size);
+   public void draw(Graphics2D g2d, SokoScene s) {
+      s.simg(g2d, ref, s.cx(x), s.cy(y), s.zoom*size, s.zoom*size);
    }
 
 }
