@@ -18,6 +18,8 @@ public class SokoScene extends Scene {
    ArrayList<Grid> gs;
    ArrayList<BufferedImage> bs;
    ArrayList<Tileset> ts;
+   Scanner s;
+   String tilesetName;
    double cx   = 0;
    double cy   = 0;
    double zoom = 1;
@@ -25,10 +27,18 @@ public class SokoScene extends Scene {
    double startCOffset;
    
    public SokoScene() {
+      
+      try {s = new Scanner(new File("a.lvl"));}
+      catch (Exception e) {System.exit(-35);}
+   
       gs = new ArrayList<Grid>();
       bs = new ArrayList<BufferedImage>();
-      bs.add(Static.bfile("pinkbg.png"));
-      bs.add(Static.bfile("pinkbgtop.png"));
+      
+      String[] levelData = s.nextLine().split(",");
+      tilesetName = levelData[0];
+      bs.add(Static.bfile(levelData[1]));
+      bs.add(Static.bfile(levelData[2]));
+      bs.add(Static.bfile(levelData[3]));
       initializeGS();
       sizeCamera();
       startCOffset = 50;
@@ -38,11 +48,7 @@ public class SokoScene extends Scene {
    public void initializeGS() {
       int x = 0;
       int y = 0;
-      String st = "";
-      Scanner s = new Scanner(System.in);
-      try {s = new Scanner(new File("a.txt"));}
-      catch (Exception FileNotFoundException) {System.exit(-669);}
-      
+      String st = "";      
       // add from a.txt
       while (s.hasNextLine()) {
          st = s.nextLine();
@@ -61,7 +67,7 @@ public class SokoScene extends Scene {
       }
       
       // tileset gaming
-      Tileset t = new Tileset("pink");
+      Tileset t = new Tileset(tilesetName);
       for (Grid g: gs) {
          if (!g.isWallTile) continue;
          boolean r, u, l, d;
@@ -80,10 +86,7 @@ public class SokoScene extends Scene {
    }
    
    public void makeBackground(Graphics2D g2d) {
-      Color temp = g2d.getColor();
-      g2d.setColor(new Color(255, 200, 200));
-      g2d.fill(new Rectangle2D.Double(0,0,ww, wh));
-      g2d.setColor(temp);
+      img2(g2d, bs.get(2), 0, 0, 100*screenRatio, 100*screenRatio);
    }
    
    public void sizeCamera() {

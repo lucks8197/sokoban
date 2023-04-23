@@ -18,7 +18,7 @@ public class Static {
     public static BufferedImage bfile(String fileName) {
        try {return ImageIO.read(new File("assets/"+fileName));} 
        // throw an absolute tantrum if file does not exist
-       catch (Exception FileNotFoundException) {System.exit(-363);}
+       catch (Exception FileNotFoundException) {System.out.println(fileName+" does not exist");System.exit(-363);}
        
        return null; // why do i have to put this, its hard to return something when it has already crashed
    }
@@ -33,5 +33,5 @@ public class Static {
       BufferedImageOp bio = (BufferedImageOp)new AffineTransformOp(at, g2d.getRenderingHints());
       g2d.drawImage(img,bio,0,0);      
    }  
-   
+      
 }
