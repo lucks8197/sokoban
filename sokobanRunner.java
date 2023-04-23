@@ -47,7 +47,7 @@ class Scene extends JComponent implements MouseListener {
    double lh;
    double w;
    double h;
-   double screenRatio = 16.0/10;
+   double screenRatio = 16.0/10; // my screen ratio, since my monitor is the only important one
    
    public Scene() {}
       protected void paintComponent(Graphics g) {
@@ -98,8 +98,11 @@ class Scene extends JComponent implements MouseListener {
    }
 
    
-   private void makeBackground(Graphics2D g2d) {
+   public void makeBackground(Graphics2D g2d) {
+      Color temp = g2d.getColor();
+      g2d.setColor(new Color(50,50,50));
       g2d.fill(new Rectangle2D.Double(0,0,ww, wh));
+      g2d.setColor(temp);
    }
    public void makeLetterbox(Graphics2D g2d) {
       g2d.setColor(new Color(0,0,0));
